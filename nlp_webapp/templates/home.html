@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vietnamese NLP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+  <style>
+    
+    h1 {
+      margin-top: 20px;
+    }
+    #button_right {
+      position: absolute;
+      right: 85px;
+    }
+
+    .menu {
+      position: absolute;
+      left: 10px;
+      margin-top: 20px;
+    }
+
+    .navbar-menu {
+      background: linear-gradient(rgb(245, 174, 174), rgb(199, 237, 229));
+      flex-grow: 1;
+      flex-shrink: 0;
+      margin-bottom: 0px;
+    }
+
+    .column.is-two-fifths {
+      flex: none;
+      width: 20%;
+    }
+
+    .menu {
+      border-right: 2px solid #0b0000;
+      /* Màu và độ rộng của đường viền phải */
+      height: 100%;
+      /* Đảm bảo menu kéo dài hết trang */
+    }
+
+    html {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      background-image: url("https://steamuserimages-a.akamaihd.net/ugc/1001429874820714899/22F0E09F8E39E61547E470CF84912B4A5DBCDA56/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"); 
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- nav -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item is-size-4">
+          Vietnamese Natural Language Processing
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://www.facebook.com/nghia.lenguyentrong.7/">
+              About Me
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              Lê Nguyễn Trọng Nghĩa
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- columns -->
+  <div class="columns is-fullheight">
+    <div class="column is-two-fifths">
+      <!-- table -->
+      <aside class="menu">
+        <p class="menu-label">
+          Model
+        </p>
+        <ul class="menu-list">
+          <li id="show_VSA"><a>Vietnamese Sematics Analysis</a></li>
+          <li id="show_SC"><a>Similarity Comparasion</a></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="column is-9" id="div_VSA" style="display:none">
+      <div class="block">
+        <h1 class="is-family-monospace has-text-black-bis has-text-info is-size-3" id="result">Input a Sentence to
+          Analysis ~o^^o~ ...</h1>
+      </div>
+      <textarea class="textarea is-link is-size-4" id="myTextarea" placeholder="Input something ..." rows="10"></textarea>
+    </div>
+
+    <!-- SC -->
+    <div class="column is-9" id="div_SC" style="display:none">
+      <div class="columns">
+        <div class="column is-half is-expanded">
+          <div class="block">
+          <h1 class="is-family-monospace has-text-black-bis has-text-info is-size-3">Input a Sentence ~o^^o~ ...</h1>
+          </div>
+          <textarea class="textarea is-link" placeholder="Link textarea" rows="10"></textarea>
+        </div>
+        <div class="column is-half is-expanded">
+          <div class="block">
+            <h1 class="is-family-monospace has-text-black-bis has-text-info is-size-3">Input a Sentence ~o^^o~ ...</h1>
+          </div>
+          <textarea class="textarea is-link is-expanded" placeholder="Link textarea" rows="10"></textarea>
+        </div>
+      </div>
+    </div>
+</div>
+  <!-- button -->
+  <div class="column" id="Analysis">
+    <button class="button is-success is-light " id="button_right" style="display: none;">Analysis</button>
+  </div>
+  <script src="static/index.js">
+
+  </script>
+  <script src="static/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript">
+    $("#Analysis").click(function () {
+      $("#result").text('Predicting: ...');
+      var text = $('#myTextarea').val();
+      var $SCRIPT_ROOT = {{ request.script_root| tojson | safe
+    }};
+    $.ajax({
+      type: "POST",
+      url: $SCRIPT_ROOT + "/upload",
+      data: text,
+      success: function (data) {
+        $('#result').text('Predicted Output: ' + data);
+      }
+    });
+              });
+  </script>
+</body>
+
+</html>
